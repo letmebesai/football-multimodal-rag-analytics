@@ -1,0 +1,32 @@
+# Python & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.venv/
+env/
+venv/
+
+# Large archives & raw datasets
+*.zip
+*.tar.gz
+*.csv
+Football_Dataset/
+archive (1).zip
+
+# Data folder (track the directory structure with .gitkeep, ignore data dumps)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Docker & Logs
+logs/
+pgdata/
+*.log
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
