@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sentence_transformers import SentenceTransformer
 from pgvector.sqlalchemy import VECTOR
 from dotenv import load_dotenv
@@ -39,7 +39,10 @@ def generate_and_store_embeddings():
     vector_df = df[['id', 'match_id', 'minute', 'second', 'team_name', 'player_name', 
                     'event_type', 'tactical_description', 'embedding']]
     
-    print("☁️ Uploading vectorized events to cloud database...")
+    print("☁️ Enabling pgvector extension and uploading to cloud database...")
+    with engine.begin() as conn:
+        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
+        
     vector_df.to_sql("tactical_vectors", con=engine, if_exists="replace", index=False,
                      dtype={'embedding': VECTOR(384)})
     print("🚀 Day 3 Vectorization Complete!")
