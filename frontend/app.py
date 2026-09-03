@@ -13,7 +13,7 @@ query = st.text_input("Enter a tactical scenario (e.g., 'Mbappe passing'):")
 
 if st.button("🔍 Search Tactical Database"):
     if query:
-        with st.spinner("Searching Neon vector database..."):
+        with st.spinner("Searching Neon vector database and generating AI analysis..."):
             try:
                 response = requests.post(
                     "http://127.0.0.1:8000/search", 
@@ -28,7 +28,13 @@ if st.button("🔍 Search Tactical Database"):
                     col1, col2 = st.columns([1, 1.5])
                     
                     with col1:
-                        st.subheader("📊 Top Semantic Matches")
+                        # --- NEW: Display the AI Tactical Summary ---
+                        st.subheader("🧠 AI Tactical Analysis")
+                        st.success(data.get("llm_summary", "No summary generated."))
+                        st.divider()
+                        
+                        # Display Raw Spatial Events
+                        st.subheader("📊 Raw Spatial Events")
                         for match in results:
                             st.info(f"**⏱️ {match['time']} | 🏃 {match['player']}** (Confidence: {match['confidence_score']})")
                             st.write(f"📝 {match['description']}")
